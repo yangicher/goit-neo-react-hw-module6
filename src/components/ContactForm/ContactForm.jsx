@@ -1,77 +1,57 @@
-import { useId } from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import { nanoid } from 'nanoid';
-import PropTypes from 'prop-types';
+import { useId } from "react";
 
-import clsx from 'clsx';
-import css from './ContactForm.module.css';
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import { nanoid } from "nanoid";
+import { useDispatch } from "react-redux";
+import { object, string } from "yup";
 
-const initialValues = {
-  name: '',
-  number: '',
-};
+import styles from "./ContactForm.module.css";
+import { addContact } from "../../redux/contactsSlice";
 
-const ContactSchema = Yup.object().shape({
-  name: Yup.string()
-    .min(3, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Required'),
-  number: Yup.string()
-    .min(3, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Required'),
+const contactSchema = object({
+  name: string().min(3, "Too short").max(50, "Too long").required("Required"),
+  number: string().min(3, "Too short").max(50, "Too long").required("Required"),
 });
 
-const ContactForm = ({ handleAdd }) => {
-  const nameFieldId = useId();
-  const numberFieldId = useId();
+export default function ContactForm() {
+  const nameId = useId();
+  const numberId = useId();
+  const dispatch = useDispatch();
 
-  const handleSubmit = (values, actions) => {
-    handleAdd({ ...values, id: nanoid() });
+  const onSubmitHandler = (values, actions) => {
+    dispatch(
+      addContact({
+        id: nanoid(),
+        name: values.name,
+        number: values.number,
+      })
+    );
+
     actions.resetForm();
   };
-
   return (
-    <div className={css.form}>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={handleSubmit}
-        validationSchema={ContactSchema}
-      >
-        <Form>
-          <div className={css.wrapper}>
-            <label htmlFor={nameFieldId}>Name</label>
-            <Field className="input" type="text" name="name" id={nameFieldId} />
-            <ErrorMessage name="name" component="span" className={css.error} />
-          </div>
-
-          <div className={css.wrapper}>
-            <label htmlFor={numberFieldId}>Number</label>
-            <Field
-              className="input"
-              type="text"
-              name="number"
-              id={numberFieldId}
-            />
-            <ErrorMessage
-              name="number"
-              component="span"
-              className={css.error}
-            />
-          </div>
-
-          <button className={clsx(css.button, 'button')} type="submit">
-            Add contact
-          </button>
-        </Form>
-      </Formik>
-    </div>
+    <Formik
+      initialValues={{
+        name: "",
+        number: "",
+      }}
+      onSubmit={onSubmitHandler}
+      validationSchema={contactSchema}
+    >
+      <Form className={styles.container}>
+        <label htmlFor={nameId}>
+          Name
+          <Field id={nameId} name="name" />
+          <ErrorMessage className={styles.error} name="name" component="span" />
+        </label>
+        <label htmlFor={numberId}>
+          Number
+          <Field id={numberId} name="number" />
+        </label>
+        <button className={styles.button} type="submit">
+          Add contact
+        </button>
+      </Form>
+    </Formik>
   );
-};
-
-ContactForm.propTypes = {
-  handleAdd: PropTypes.func.isRequired,
-};
-
-export default ContactForm;
+}

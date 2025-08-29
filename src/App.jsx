@@ -39,15 +39,12 @@ function App() {
   };
 
   return (
-    <>
+    <div>
       <h1>Phonebook</h1>
-      <ContactForm handleAdd={onAddContact} />
-      <SearchBox value={searchValue} handleChange={onChangeSearchValue} />
-      <ContactList
-        contactsData={getContactsData}
-        handleDelete={onDeleteContact}
-      />
-    </>
+      <ContactForm />
+      <SearchBox />
+      <ContactList />
+    </div>
   );
 }
 

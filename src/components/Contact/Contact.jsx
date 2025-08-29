@@ -1,33 +1,27 @@
-import PropTypes from 'prop-types';
 import { FaUser, FaPhone } from "react-icons/fa6";
+import { useDispatch } from "react-redux";
 
-import css from './Contact.module.css';
+import styles from "./Contact.module.css";
+import { deleteContact } from "../../redux/contactsSlice";
 
-const Contact = ({ name, number, id, handleDelete }) => {
+
+export default function Contact({ id, name, number }) {
+  const dispatch = useDispatch();
   return (
-    <div className={css.card}>
-      <div>
-        <div className={css.label}>
+    <div className={styles.container}>
+      <div className={styles.info}>
+        <p className={styles.record}>
           <FaUser />
-          <p>{name}</p>
-        </div>
-        <div className={css.label}>
+          {name}
+        </p>
+        <p className={styles.record}>
           <FaPhone />
-          <p>{number}</p>
-        </div>
+          {number}
+        </p>
       </div>
-      <button className="button" onClick={() => handleDelete(id)}>
+      <button className={styles.button} onClick={() => dispatch(deleteContact(id))}>
         Delete
       </button>
     </div>
   );
-};
-
-Contact.propTypes = {
-  name: PropTypes.string.isRequired,
-  number: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  handleDelete: PropTypes.func.isRequired,
-};
-
-export default Contact;
+}
