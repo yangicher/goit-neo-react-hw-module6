@@ -1,43 +1,9 @@
-import ContactForm from './components/ContactForm/ContactForm';
-import SearchBox from './components/SearchBox/SearchBox';
-import ContactList from './components/ContactList/ContactList';
-import './App.css';
-import { useState, useEffect } from 'react';
-import contacts from './data/contacts.json';
+import "./App.css";
+import ContactForm from "./components/ContactForm/ContactForm";
+import ContactList from "./components/ContactList/ContactList";
+import SearchBox from "./components/SearchBox/SearchBox";
 
 function App() {
-  const [contactsData, setContactsData] = useState(() => {
-    const savedObject = window.localStorage.getItem('saved-contacts-data');
-
-    if (savedObject !== null) {
-      return JSON.parse(savedObject);
-    }
-
-    return contacts;
-  });
-
-  useEffect(() => {
-    window.localStorage.setItem(
-      'saved-contacts-data',
-      JSON.stringify(contactsData)
-    );
-  }, [contactsData]);
-
-  const [searchValue, setSearchValue] = useState('');
-  const getContactsData = contactsData.filter(({ name }) =>
-    name.toLowerCase().includes(searchValue.toLowerCase())
-  );
-
-  const onAddContact = data => {
-    setContactsData(prev => [...prev, data]);
-  };
-  const onChangeSearchValue = evt => {
-    setSearchValue(evt.target.value);
-  };
-  const onDeleteContact = id => {
-    setContactsData(prev => prev.filter(el => id !== el.id));
-  };
-
   return (
     <div>
       <h1>Phonebook</h1>

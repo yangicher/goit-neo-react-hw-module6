@@ -1,22 +1,17 @@
-.form {
-  border: 2px solid black;
-  border-radius: 5px;
-  padding: 20px 10px;
-  width: 300px;
-  margin-bottom: 20px;
-}
-
-.wrapper {
+.container {
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
+  width: 300px;
+  align-items: flex-start;
+  border: 1px solid;
+  padding: 16px;
+  gap: 16px;
+}
+
+.button {
+  align-self: center;
 }
 
 .error {
   color: red;
-}
-
-.button {
-  display: block;
-  margin: 0 auto;
 }

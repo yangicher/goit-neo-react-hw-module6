@@ -1,19 +1,21 @@
-.card {
-  border: 2px solid black;
-  border-radius: 5px;
-  padding: 10px;
+.container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  width: 250px;
+  border: 1px solid;
+  padding: 8px;
+  gap: 8px;
 }
 
-.label {
+.info {
   display: flex;
-  align-items: center;
-  gap: 5px;
+  flex-direction: column;
+  align-items: start;
 }
-
-.label:first-of-type {
-  margin-bottom: 5px;
+.record {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.button {
+  align-self: center
 }
